@@ -1,0 +1,30 @@
+name: flakeheaven
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  flakeheaven:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        name: Set up Python v3.8
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          pip install git+ssh://git@github.com/flakeheaven/flakeheaven.git#egg=flakeheaven
+          pip install flake8-pytest-style pysetenv pre-commit
+      - name: Run standalone (no cache)
+        run: pysetenv FLAKEHEAVEN_CACHE_TIMEOUT=0 flakeheaven lint
+      - name: Run standalone (cache)
+        run: flakeheaven lint
+        if: always()
+      - name: Run with pre-commit
+        run: pre-commit run --all-files
+        if: always()

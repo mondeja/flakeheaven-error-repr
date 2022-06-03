@@ -1,0 +1,13 @@
+repos:
+  - repo: https://github.com/flakeheaven/flakeheaven
+    rev: main
+    hooks:
+      - id: flakeheaven
+        additional_dependencies:
+          - flake8-pytest-style
+      - id: flakeheaven
+        name: flakeheaven-no-cache
+        additional_dependencies:
+          - flake8-pytest-style
+          - pysetenv
+        entry: pysetenv FLAKEHEAVEN_CACHE_TIMEOUT=0 flakeheaven lint

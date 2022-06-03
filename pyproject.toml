@@ -1,0 +1,5 @@
+[tool.flakeheaven]
+pytest-parametrize-values-type = "tuple"
+
+[tool.flakeheaven.plugins]
+flake8-pytest-style = ["+*"]
